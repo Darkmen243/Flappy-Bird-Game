@@ -1,49 +1,55 @@
 <template>
-  <div class="pipe" :style="pipeStyles"></div>
+  <div class="pipe" :style="{ width: width + 'px', left: position + 'px' }">
+    <div class="pipe-top" :style="{ height: topPipeHeight + 'px' }"></div>
+    <div class="space" :style="{ height: spaceHeight + 'px' }"></div>
+    <div class="pipe-bottom" :style="{ height: bottomPipeHeight + 'px' }"></div>
+  </div>
 </template>
-
-<script>
-export default {
-  name: "PipeModel",
-  props: {
-    direction: {
-      type: String,
-      required: true,
-    },
-    height: {
-      type: Number,
-      required: true,
-    },
-    positionX: {
-      type: Number,
-      required: true,
-    },
-  },
-  computed: {
-    pipeStyles() {
-      return {
-        height: `${this.height}px`,
-        left: `${this.positionX}%`,
-        [this.direction === "up" ? "top" : "bottom"]: "0",
-      };
-    },
-  },
-};
-</script>
-
-<style scoped>
+<style>
 .pipe {
-  min-height: 10px;
-  width: 120px;
-  position: fixed;
-  border: 5px solid rgba(0, 255, 53, 1);
-  background: linear-gradient(
-    90deg,
-    rgba(0, 255, 53, 1) 0%,
-    rgba(0, 134, 27, 1) 18%,
-    rgba(0, 113, 23, 1) 75%,
-    rgba(0, 255, 53, 1) 100%
-  );
-  transition: left 0.3s linear; /* Плавное движение труб */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+}
+
+.pipe-top {
+  background: url("../assets/img/pipe_down.png") bottom no-repeat;
+  background-size: cover;
+}
+
+.pipe-bottom {
+  background: url("../assets/img/pipe_up.png") no-repeat;
+  background-size: cover;
 }
 </style>
+<script>
+import Config from "../config.js";
+
+export default {
+  name: "PipeModel",
+  data() {
+    return {
+      width: Config.pipe.width,
+      spaceHeight: Config.pipe.spaceHeight,
+    };
+  },
+  computed: {
+    bottomPipeHeight: function () {
+      return (
+        Config.app.height -
+        Config.land.height -
+        this.topPipeHeight -
+        this.spaceHeight
+      );
+    },
+  },
+  props: {
+    position: Number,
+    topPipeHeight: Number,
+  },
+  methods: {},
+  created() {},
+  destroyed() {},
+};
+</script>

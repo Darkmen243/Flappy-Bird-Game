@@ -1,15 +1,16 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+
 import { RouteNames } from "./routes";
-import GamePage from "../components/pages/GamePage.vue";
+import App from "@/App.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: RouteNames.HOME,
-    component: GamePage,
+    name: RouteNames.GAME,
+    component: App,
   },
 ];
 
